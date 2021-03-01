@@ -20,6 +20,14 @@ module NavigationHelpers
     #
     #   when /^(.*)'s profile page$/i
     #     user_profile_path(User.find_by_login($1))
+    when /^the (.+) page for "([^"]*)"$/ then
+      if $1=="edit"
+        edit_movie_path(Movie.find_by_title($2))
+      elsif $1=="details"
+        movie_path(Movie.find_by_title($2))
+      else
+        raise "Can't find the #{$1} page for #{$2}"
+      end
 
     else
       begin

@@ -103,7 +103,10 @@ When /^(?:|I )attach the file "([^"]*)" to "([^"]*)"$/ do |path, field|
 end
 
 Then /^(?:|I )should see "([^"]*)"$/ do |text|
-  if page.respond_to? :should
+  if /'(.*)' has no director info/ =~ text
+    title = /'(.*)' has no director info/.match(text)[1]
+    find('tr', text: title)[3].should have_text('')
+  elsif page.respond_to? :should
     page.should have_content(text)
   else
     assert page.has_content?(text)
